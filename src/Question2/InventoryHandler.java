@@ -1,5 +1,6 @@
 package Question2;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class InventoryHandler {
@@ -18,6 +19,7 @@ public class InventoryHandler {
         // Prompt user for the number of books to enter
         System.out.print("How many books do you want to enter? ");
         int numBooks = scanner.nextInt();
+        ArrayList<Book> addedBooks = new ArrayList<>(); // List to store added books
 
         int enteredBooks = 0;
         for (int i = 0; i < inventory.length && enteredBooks < numBooks; i++) {
@@ -37,12 +39,21 @@ public class InventoryHandler {
                 System.out.print("Enter price: ");
                 double price = scanner.nextDouble();
 
-                // Create a new Book object and add it to the inventory
-                inventory[i] = new Book(title, author, isbn, price);
+                // Create a new Book object, add it to the inventory, and add to addedBooks list
+                Book newBook = new Book(title, author, isbn, price);
+                inventory[i] = newBook;
+                addedBooks.add(newBook);
                 enteredBooks++;
+                
             }
         }
-
+        
+        // Display all the books that were added
+        System.out.println("Books added:");
+        for (Book book : addedBooks) {
+            System.out.println(book.toString());
+        }
+        
         // Provide feedback on how many books were added
         if (enteredBooks < numBooks) {
             System.out.println("Only " + enteredBooks + " books were added due to space limitations.");
@@ -57,7 +68,7 @@ public class InventoryHandler {
 
         // Prompt user for the index of the book to update
         System.out.print("Enter book number to update: ");
-        int bookIndex = scanner.nextInt();
+        int bookIndex = scanner.nextInt() - 1;
 
         // Check if the index is valid and if a book exists at that index
         if (bookIndex < 0 || bookIndex >= inventory.length || inventory[bookIndex] == null) {
